@@ -48,7 +48,9 @@ const s = ( sketch ) => {
 
   sketch.reset = () => {
     isRunning = false;
+    sketch.myChart.destroy();
     sketch.setup();
+
   }
 
   sketch.setup = () => {
