@@ -37,8 +37,14 @@ const s = ( sketch ) => {
   */
 
   sketch.start = () => {
-    isRunning = true;
-    sketch.myLoop();
+    if (isRunning) {
+      sketch.reset();
+      sketch.start();
+    }
+    else {
+      isRunning = true;
+      sketch.myLoop();
+    }
 
   }
 
@@ -61,7 +67,7 @@ const s = ( sketch ) => {
       sketch.time = 0;
       sketch.nbrData = 0;
 
-      sketch.nbrBalls = 800;
+      sketch.nbrBalls = document.getElementById("initial-population").value;
       sketch.diameter = 3;
 
       sketch.maxVelocity = 0.25;
@@ -139,14 +145,22 @@ const s = ( sketch ) => {
       this.otherBalls = balls;
 
       this.state = state;
-      this.waitingTime = sketch.random(waitingTime-200, waitingTime +200);
+      this.waitingToHill = waitingTime;
+      this.waitingTime = sketch.random(this.waitingToHill-200, this.waitingToHill +200);
+      
     }
+
+    setWaitingTime() {
+      this.waitingTime = sketch.random(this.waitingToHill-200, this.waitingToHill +200);
+    }
+    
     rotate(v, theta) {
       return [
         v[0] * Math.cos(theta) - v[1] * Math.sin(theta),
         v[0] * Math.sin(theta) + v[1] * Math.cos(theta)
       ];
     }
+
 
     recover() {
       if (this.state == 1) {
@@ -161,9 +175,11 @@ const s = ( sketch ) => {
       if (one.state == 1 || two.state == 1) {
         if (one.state != 2) {
           one.state = 1;
+          // one.setWaitingTime();
         }
         if (two.state != 2) {
           two.state = 1;
+          // two.setWaitingTime();
         }
       }
     }
@@ -246,4 +262,9 @@ function stop() {
 
 function reset() {
   myp5.reset();
+}
+
+function changeSliderNbrPeople(v) {
+  document.getElementById("nbr-people").textContent = "Inintial number of people : " + v;
+
 }

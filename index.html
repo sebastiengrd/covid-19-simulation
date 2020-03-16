@@ -26,6 +26,9 @@
     <button onclick="start()">Start!</button>
 	<button onclick="stop()">Stop!</button>
 	<button onclick="reset()">Reset!</button>
+	<p>initial population</p>
+  	<input type="range" min="1" max="1000" value="700" id="initial-population" oninput="changeSliderNbrPeople(this.value)">
+  	<span id="nbr-people">Inintial number of people : 700</span>
 
 
     <script src="./scripts/p5.js"></script>
