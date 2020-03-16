@@ -72,7 +72,7 @@ const s = ( sketch ) => {
 
       sketch.maxVelocity = 0.25;
 
-      sketch.nbrSick = 3
+      sketch.infectionProbability = document.getElementById("initial-infected-population").value;
 
       sketch.waitingTimeToRecover = 700;
 
@@ -81,12 +81,7 @@ const s = ( sketch ) => {
     sketch.createGraph();
     sketch.resizeCanvas(wanted_width, wanted_height);
     for(let i = 0; i < sketch.nbrBalls; i++) {
-      if (i < sketch.nbrSick) {
-        sketch.balls[i] = new Ball(sketch.diameter, sketch.maxVelocity, sketch.balls, 1, sketch.waitingTimeToRecover);  
-      }
-      else {
-        sketch.balls[i] = new Ball(sketch.diameter, sketch.maxVelocity, sketch.balls, 0, sketch.waitingTimeToRecover);
-      }
+      sketch.balls[i] = new Ball(sketch.diameter, sketch.maxVelocity, sketch.balls, sketch.infectionProbability, sketch.waitingTimeToRecover);
     }
     
     
@@ -134,7 +129,7 @@ const s = ( sketch ) => {
 
 
   class Ball {
-    constructor(diameter, maxVelocity, balls, state, waitingTime) {
+    constructor(diameter, maxVelocity, balls, initialInfectionProbability, waitingTime) {
       this.x = sketch.random(0, wanted_width);
       this.y = sketch.random(0, wanted_height);
 
@@ -144,7 +139,11 @@ const s = ( sketch ) => {
 
       this.otherBalls = balls;
 
-      this.state = state;
+      if (sketch.random(0, 1) < initialInfectionProbability) {
+        this.state = 1;
+      } else {
+        this.state = 0;
+      }
       this.waitingToHill = waitingTime;
       this.waitingTime = sketch.random(this.waitingToHill-200, this.waitingToHill +200);
       
@@ -267,4 +266,8 @@ function reset() {
 function changeSliderNbrPeople(v) {
   document.getElementById("nbr-people").textContent = "Inintial number of people : " + v;
 
+}
+
+function changeSliderInfectedPercentage(v) {
+  document.getElementById("percentage-infected-population").textContent = "Inintial percentage of infected person : " + v + "%";
 }

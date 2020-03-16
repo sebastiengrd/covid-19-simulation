@@ -26,9 +26,12 @@
     <button onclick="start()">Start!</button>
 	<button onclick="stop()">Stop!</button>
 	<button onclick="reset()">Reset!</button>
-	<p>initial population</p>
+	<h1>initial population</h1>
   	<input type="range" min="1" max="1000" value="700" id="initial-population" oninput="changeSliderNbrPeople(this.value)">
   	<span id="nbr-people">Inintial number of people : 700</span>
+  	<br>
+  	<input type="range" min="0" max="0.3" value="0.01" id="initial-infected-population" step=0.005 oninput="changeSliderInfectedPercentage(this.value)">
+  	<span id="percentage-infected-population">Inintial percentage of infected person : 1%</span>
 
 
     <script src="./scripts/p5.js"></script>
