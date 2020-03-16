@@ -1,29 +1,16 @@
 const s = ( sketch ) => {
 
+  var isRunning = false;
 
   var wanted_height = 500;
   var wanted_width = 500;
 
-  var balls = [];
 
-  var dataX = [];
-  var dataY = [];
-  var time = 0;
-  var nbrData = 0;
-
-  var nbrBalls = 200;
-  var diameter = 5;
-
-  var maxVelocity = 0.5;
-
-  var nbrSick = 20
-
-  var waitingTimeToRecover = 700;
 
   sketch.createGraph = () => {
-    var years = dataX;
+    var years = sketch.dataX;
     // For drawing the lines
-    var africa = dataY;
+    var africa = sketch.dataY;
 
     var ctx = document.getElementById("myChart").getContext('2d');
     sketch.myChart = new Chart(ctx, {
@@ -49,36 +36,68 @@ const s = ( sketch ) => {
   2 -> heal
   */
 
+  sketch.start = () => {
+    isRunning = true;
+    sketch.myLoop();
+
+  }
+
+  sketch.stop = () => {
+    isRunning = false;
+  }
+
+  sketch.reset = () => {
+    isRunning = false;
+    sketch.setup();
+  }
+
   sketch.setup = () => {
+      sketch.balls = [];
+
+      sketch.dataX = [];
+      sketch.dataY = [];
+      sketch.time = 0;
+      sketch.nbrData = 0;
+
+      sketch.nbrBalls = 800;
+      sketch.diameter = 3;
+
+      sketch.maxVelocity = 0.25;
+
+      sketch.nbrSick = 3
+
+      sketch.waitingTimeToRecover = 700;
+
+
     sketch.pixelDensity(1);
     sketch.createGraph();
     sketch.resizeCanvas(wanted_width, wanted_height);
-    for(let i = 0; i < nbrBalls; i++) {
-      if (i < nbrSick) {
-        balls[i] = new Ball(diameter, maxVelocity, balls, 1, waitingTimeToRecover);  
+    for(let i = 0; i < sketch.nbrBalls; i++) {
+      if (i < sketch.nbrSick) {
+        sketch.balls[i] = new Ball(sketch.diameter, sketch.maxVelocity, sketch.balls, 1, sketch.waitingTimeToRecover);  
       }
       else {
-        balls[i] = new Ball(diameter, maxVelocity, balls, 0, waitingTimeToRecover);
+        sketch.balls[i] = new Ball(sketch.diameter, sketch.maxVelocity, sketch.balls, 0, sketch.waitingTimeToRecover);
       }
     }
     
     
-    sketch.myLoop();
+    
 
   }
 
   sketch.updateGraph = () => {
     var count = 0;
-    for (let i = 0; i < balls.length; i++) {
-      if (balls[i].state == 1) {
+    for (let i = 0; i < sketch.balls.length; i++) {
+      if (sketch.balls[i].state == 1) {
         count++;
       }
     }
 
-    sketch.myChart.data.datasets[0].data[nbrData] = count;
-    sketch.myChart.data.labels[nbrData] = nbrData;
+    sketch.myChart.data.datasets[0].data[sketch.nbrData] = count;
+    sketch.myChart.data.labels[sketch.nbrData] = sketch.nbrData;
     sketch.myChart.update();
-    nbrData++;
+    sketch.nbrData++;
   }
 
 
@@ -86,15 +105,17 @@ const s = ( sketch ) => {
     setTimeout(function () {
       sketch.background(0);
       
-      balls.forEach(ball => {ball.recover(); ball.collide(); ball.move(); ball.display()})
+      sketch.balls.forEach(ball => {ball.recover(); ball.collide(); ball.move(); ball.display()})
 
-      if (time % 10 == 0) {
+      if (sketch.time % 10 == 0) {
         sketch.updateGraph();
       }
-      time++;
-      sketch.myLoop();
+      sketch.time++;
 
-     }, 20) // delay before executing the function
+      if (isRunning) {
+        sketch.myLoop();
+      }
+     }, 10) // delay before executing the function
   }
 
   // sketch.resize = () => {
@@ -116,7 +137,7 @@ const s = ( sketch ) => {
       this.otherBalls = balls;
 
       this.state = state;
-      this.waitingTime = waitingTime;
+      this.waitingTime = sketch.random(waitingTime-200, waitingTime +200);
     }
     rotate(v, theta) {
       return [
@@ -211,4 +232,16 @@ var myp5 = new p5(s, document.getElementById("simulation"));
 function resize(){
   // myp5.resize();
   // console.log("out");
+}
+
+function start() {
+  myp5.start();
+}
+
+function stop() {
+  myp5.stop();
+}
+
+function reset() {
+  myp5.reset();
 }
