@@ -60,28 +60,31 @@ const s = ( sketch ) => {
   }
 
   sketch.setup = () => {
-      sketch.balls = [];
+    sketch.balls = [];
 
-      sketch.dataX = [];
-      sketch.dataY = [];
-      sketch.time = 0;
-      sketch.nbrData = 0;
+    sketch.dataX = [];
+    sketch.dataY = [];
+    sketch.time = 0;
+    sketch.nbrData = 0;
 
-      sketch.nbrBalls = document.getElementById("initial-population").value;
-      sketch.diameter = 3;
+    sketch.nbrBalls = document.getElementById("initial-population").value;
+    sketch.diameter = 3;
 
-      sketch.maxVelocity = 0.25;
+    sketch.maxVelocity = 0.25;
 
-      sketch.infectionProbability = document.getElementById("initial-infected-population").value;
+    sketch.infectionProbability = document.getElementById("initial-infected-population").value;
 
-      sketch.waitingTimeToRecover = 700;
+    sketch.stayHomeProbability = document.getElementById("motionless-percentage").value;
 
+    sketch.waitingTimeToRecover = 700;
+
+    sketch.angleMode(sketch.RADIANS);
 
     sketch.pixelDensity(1);
     sketch.createGraph();
     sketch.resizeCanvas(wanted_width, wanted_height);
     for(let i = 0; i < sketch.nbrBalls; i++) {
-      sketch.balls[i] = new Ball(sketch.diameter, sketch.maxVelocity, sketch.balls, sketch.infectionProbability, sketch.waitingTimeToRecover);
+      sketch.balls[i] = new Ball(sketch.diameter, sketch.maxVelocity, sketch.balls, sketch.infectionProbability, sketch.waitingTimeToRecover, sketch.stayHomeProbability);
     }
     
     
@@ -129,12 +132,21 @@ const s = ( sketch ) => {
 
 
   class Ball {
-    constructor(diameter, maxVelocity, balls, initialInfectionProbability, waitingTime) {
+    constructor(diameter, maxVelocity, balls, initialInfectionProbability, waitingTime, motionlessProbability) {
       this.x = sketch.random(0, wanted_width);
       this.y = sketch.random(0, wanted_height);
 
-      this.vx = sketch.random(-maxVelocity, maxVelocity);
-      this.vy = sketch.random(-maxVelocity, maxVelocity);
+      this.motionless = sketch.random(0, 1) < motionlessProbability;
+
+      if (this.motionless) {
+        this.vx = 0;
+        this.vy = 0; 
+      } else {
+        let angle = sketch.random(-sketch.PI, sketch.PI);
+        this.vx = maxVelocity*sketch.cos(angle);
+        this.vy = maxVelocity*sketch.sin(angle)
+      }
+
       this.diameter = diameter;
 
       this.otherBalls = balls;
@@ -211,10 +223,14 @@ const s = ( sketch ) => {
           let u1 = this.rotate([(v1[0] * (m1 - m2)) / (m1 + m2) + (v2[0] * 2 * m2) / (m1 + m2), v1[1]], theta);
           let u2 = this.rotate([(v2[0] * (m2 - m1)) / (m1 + m2) + (v1[0] * 2 * m1) / (m1 + m2), v2[1]], -theta);
 
-          this.vx = u1[0];
-          this.vy = u1[1];
-          other.vx = u2[0];
-          other.vy = u2[1];
+          if (!this.motionless) {
+            this.vx = u1[0];
+            this.vy = u1[1];
+          }
+          if (!other.motionless) {
+            other.vx = u2[0];
+            other.vy = u2[1];
+          }
 
           this.move();
         }
@@ -269,5 +285,9 @@ function changeSliderNbrPeople(v) {
 }
 
 function changeSliderInfectedPercentage(v) {
-  document.getElementById("percentage-infected-population").textContent = "Inintial percentage of infected person : " + v + "%";
+  document.getElementById("percentage-infected-population").textContent = "Inintial percentage of infected person : " + v*100 + "%";
+}
+
+function changeSliderMotionlessPercentage(v) {
+  document.getElementById("motionless-percentage-span").textContent = "Percentage of motionless person : " + v*100 + "%";
 }

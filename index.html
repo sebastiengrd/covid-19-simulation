@@ -32,6 +32,10 @@
   	<br>
   	<input type="range" min="0" max="0.3" value="0.01" id="initial-infected-population" step=0.005 oninput="changeSliderInfectedPercentage(this.value)">
   	<span id="percentage-infected-population">Inintial percentage of infected person : 1%</span>
+  	<br>
+  	<input type="range" min="0" max="0.9" value="0" id="motionless-percentage" step=0.005 oninput="changeSliderMotionlessPercentage(this.value)">
+  	<span id="motionless-percentage-span">Percentage of motionless person : 0%</span>
+
 
 
     <script src="./scripts/p5.js"></script>
