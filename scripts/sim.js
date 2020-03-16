@@ -6,14 +6,42 @@ const s = ( sketch ) => {
 
   var balls = [];
 
+  var dataX = [];
+  var dataY = [];
+  var time = 0;
+  var nbrData = 0;
+
   var nbrBalls = 200;
   var diameter = 5;
 
   var maxVelocity = 0.5;
 
-  var nbrSick = 10
+  var nbrSick = 20
 
   var waitingTimeToRecover = 700;
+
+  sketch.createGraph = () => {
+    var years = dataX;
+    // For drawing the lines
+    var africa = dataY;
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    sketch.myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [
+          { 
+            data: africa
+          }
+        ]
+      },
+      options: {
+        responsive: false
+      }
+    });
+
+  }
 
   /* 
   0 -> healthy
@@ -22,9 +50,9 @@ const s = ( sketch ) => {
   */
 
   sketch.setup = () => {
-    let cnv = sketch.createCanvas(wanted_width, wanted_height);
     sketch.pixelDensity(1);
-
+    sketch.createGraph();
+    sketch.resizeCanvas(wanted_width, wanted_height);
     for(let i = 0; i < nbrBalls; i++) {
       if (i < nbrSick) {
         balls[i] = new Ball(diameter, maxVelocity, balls, 1, waitingTimeToRecover);  
@@ -39,13 +67,31 @@ const s = ( sketch ) => {
 
   }
 
+  sketch.updateGraph = () => {
+    var count = 0;
+    for (let i = 0; i < balls.length; i++) {
+      if (balls[i].state == 1) {
+        count++;
+      }
+    }
+
+    sketch.myChart.data.datasets[0].data[nbrData] = count;
+    sketch.myChart.data.labels[nbrData] = nbrData;
+    sketch.myChart.update();
+    nbrData++;
+  }
+
 
   sketch.myLoop = () => {
     setTimeout(function () {
       sketch.background(0);
       
       balls.forEach(ball => {ball.recover(); ball.collide(); ball.move(); ball.display()})
-      
+
+      if (time % 10 == 0) {
+        sketch.updateGraph();
+      }
+      time++;
       sketch.myLoop();
 
      }, 20) // delay before executing the function
