@@ -1,7 +1,7 @@
 :root {
   --main-bg-color: rgb(100, 100, 100);
   --top-bar-color: rgb(150, 150, 150);
-  --top-bar-height: 80px;
+  --top-bar-height: 60px;
 }
 
 body {
@@ -25,7 +25,7 @@ body {
 #top-bar h1 {
 	float: left;
 	display: flex;
-	padding: 10px;
+	position: relative;
 	color: white;
 }
 
@@ -53,5 +53,5 @@ body {
 
 #defaultCanvas0 {
 	position: absolute;
-	top: 80;
+	top: 60;
 }
