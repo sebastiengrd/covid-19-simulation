@@ -1,0 +1,30 @@
+:root {
+  --main-bg-color: rgb(100, 100, 100);
+  --top-bar-color: rgb(150, 150, 150);
+  --top-bar-height: 80px;
+}
+
+body {
+    margin:0;
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color: var(--main-bg-color);
+}
+
+#top-bar {
+	width: 100vw;
+	height: var(--top-bar-height);
+	background-color: var(--top-bar-color);
+	padding: 0;
+	display: flex;
+	justify-content: space-between;
+
+}
+
+
+#top-bar h1 {
+	float: left;
+	display: flex;
+	padding: 10px;
+	color: white;
+}
