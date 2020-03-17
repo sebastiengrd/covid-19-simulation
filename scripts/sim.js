@@ -68,7 +68,7 @@ const s = ( sketch ) => {
     sketch.nbrData = 0;
 
     sketch.nbrBalls = document.getElementById("initial-population").value;
-    sketch.diameter = 3;
+    sketch.diameter = wanted_height*wanted_width / 100000;
 
     sketch.maxVelocity = 0.25;
 
