@@ -55,3 +55,10 @@ body {
 	position: absolute;
 	top: 60;
 }
+
+
+#bottom-page {
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+}

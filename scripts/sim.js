@@ -24,7 +24,15 @@ const s = ( sketch ) => {
         ]
       },
       options: {
-        responsive: false
+        responsive: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              suggestedMin: sketch.nbrBalls,
+              suggestedMax: sketch.nbrBalls
+            }
+          }]
+        }
       }
     });
 

@@ -31,18 +31,24 @@
 
     <div class="simulation" id="simulation"></div>
 
-    <div width="400" height="400">
-		<canvas id="myChart" width="400" height="400"></canvas>
+    <div id="bottom-page">
+	    <div id="chart-container" width="400" height="400">
+			<canvas id="myChart" width="400" height="400"></canvas>
+	    </div>
+    	
+    	<div id="settings-container">
+			<h1>initial population</h1>
+		  	<input type="range" min="1" max="1000" value="700" id="initial-population" oninput="changeSliderNbrPeople(this.value)">
+		  	<span id="nbr-people">Inintial number of people : 700</span>
+		  	<br>
+		  	<input type="range" min="0" max="0.3" value="0.01" id="initial-infected-population" step=0.005 oninput="changeSliderInfectedPercentage(this.value)">
+		  	<span id="percentage-infected-population">Inintial percentage of infected person : 1%</span>
+		  	<br>
+		  	<input type="range" min="0" max="0.9" value="0" id="motionless-percentage" step=0.005 oninput="changeSliderMotionlessPercentage(this.value)">
+		  	<span id="motionless-percentage-span">Percentage of motionless person : 0%</span>
+    	</div>
     </div>
-	<h1>initial population</h1>
-  	<input type="range" min="1" max="1000" value="700" id="initial-population" oninput="changeSliderNbrPeople(this.value)">
-  	<span id="nbr-people">Inintial number of people : 700</span>
-  	<br>
-  	<input type="range" min="0" max="0.3" value="0.01" id="initial-infected-population" step=0.005 oninput="changeSliderInfectedPercentage(this.value)">
-  	<span id="percentage-infected-population">Inintial percentage of infected person : 1%</span>
-  	<br>
-  	<input type="range" min="0" max="0.9" value="0" id="motionless-percentage" step=0.005 oninput="changeSliderMotionlessPercentage(this.value)">
-  	<span id="motionless-percentage-span">Percentage of motionless person : 0%</span>
+
 
 
 
