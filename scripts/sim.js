@@ -3,7 +3,7 @@ const s = ( sketch ) => {
   var isRunning = false;
 
   var wanted_height = 500;
-  var wanted_width = 500;
+  var wanted_width = window.innerWidth;
 
 
 
@@ -83,6 +83,7 @@ const s = ( sketch ) => {
     sketch.pixelDensity(1);
     sketch.createGraph();
     sketch.resizeCanvas(wanted_width, wanted_height);
+    sketch.background(0);
     for(let i = 0; i < sketch.nbrBalls; i++) {
       sketch.balls[i] = new Ball(sketch.diameter, sketch.maxVelocity, sketch.balls, sketch.infectionProbability, sketch.waitingTimeToRecover, sketch.stayHomeProbability);
     }

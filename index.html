@@ -22,16 +22,18 @@
 		<h1>Covid-19 Simulator</h1>
 	</div>
 
-    <!--Top navigation bar-->
-    <h1></h1>
-    <div class="simulation"></div>
+    <div id="sticky-buttons">
+	    <button onclick="start()">Start!</button>
+		<button onclick="stop()">Stop!</button>
+		<button onclick="reset()">Reset!</button>
+    </div>
+
+
+    <div class="simulation" id="simulation"></div>
 
     <div width="400" height="400">
 		<canvas id="myChart" width="400" height="400"></canvas>
     </div>
-    <button onclick="start()">Start!</button>
-	<button onclick="stop()">Stop!</button>
-	<button onclick="reset()">Reset!</button>
 	<h1>initial population</h1>
   	<input type="range" min="1" max="1000" value="700" id="initial-population" oninput="changeSliderNbrPeople(this.value)">
   	<span id="nbr-people">Inintial number of people : 700</span>
